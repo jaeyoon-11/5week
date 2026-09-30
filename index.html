@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/png" href="egg.png">
+
+	<title>나만의 계란후라이 만들기</title>
+
+	<style>
+
+		@font-face {
+			font-family: 'Gmarket Sans';
+			src: url('./GmarketSansLight.otf') format('opentype');
+			font-weight: 300;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Gmarket Sans';
+			src: url('./GmarketSansMedium.otf') format('opentype');
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Gmarket Sans';
+			src: url('./GmarketSansBold.otf') format('opentype');
+			font-weight: 700;
+			font-style: normal;
+		}
+
+
+		body{
+			margin: 0;
+			text-align: center;
+			font-family: 'Gmarket Sans', sans-serif;
+			background: #ffffff;
+			font-weight: 400;
+			font-synthesis: none;
+		}
+
+		h1{
+			font-size: 50px;
+			margin-top: 65px;
+			margin-bottom: 20px;
+			text-align: center;
+			width: 100%;
+			font-weight: 400;
+		}
+
+		p{
+			font-size: 18px;
+			margin: 0;
+			font-weight: 400;
+		}
+
+
+		#mainArea{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 60px;
+			margin-top: 50px;
+		}
+
+
+		#panArea{
+			position: relative;
+			width: 600px;
+			height: 600px;
+		}
+
+		#pan{
+			position: absolute;
+			width: 600px;
+			left: 0;
+			top: 0;
+		}
+
+
+		#eggWhite{
+			position: absolute;
+			width: 260px;
+			height: 220px;
+			left: 176px;
+			top: 200px;
+
+			background: white;
+
+			border-radius:
+				55% 45% 60% 40% /
+				45% 55% 40% 60%;
+
+			box-shadow:
+				0 7px 12px rgba(80,50,20,0.18),
+				0 14px 20px rgba(80,50,20,0.10),
+				inset 0 -7px 12px rgba(200,200,200,0.35);
+
+			opacity: 0.7;
+
+			z-index: 2;
+		}
+
+
+		#yolk{
+			position: absolute;
+			width: 110px;
+			height: 110px;
+			left: 251px;
+			top: 255px;
+
+			background: hsl(50, 100%, 50%);
+
+			border-radius: 50%;
+
+			box-shadow:
+				8px 10px 12px rgba(100,55,0,0.25),
+				inset -8px -10px 15px rgba(180,80,0,0.25),
+				inset 5px 5px 12px rgba(255,255,150,0.35);
+
+			z-index: 3;
+		}
+
+		#yolk::before{
+			content: "";
+			position: absolute;
+			width: 28px;
+			height: 18px;
+			left: 22px;
+			top: 18px;
+
+			background: rgba(255,255,255,0.45);
+
+			border-radius: 50%;
+
+			transform: rotate(-25deg);
+		}
+
+		#yolk::after{
+			content: "";
+			position: absolute;
+			width: 12px;
+			height: 8px;
+			left: 53px;
+			top: 32px;
+
+			background: rgba(255,255,255,0.25);
+
+			border-radius: 50%;
+		}
+
+
+		#rightArea{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 180px;
+		}
+
+		.controlBox{
+			margin: 25px auto;
+		}
+
+		.controlBox label{
+			display: block;
+			font-weight: 400;
+			font-size: 16px;
+			margin-bottom: 12px;
+		}
+
+
+		.sliderRow{
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.sliderLabel{
+			width: 100px;
+			font-size: 14px;
+			font-weight: 400;
+		}
+
+
+		.rangeWrap{
+			position: relative;
+			width: 300px;
+			height: 18px;
+		}
+
+		.rangeWrap::before{
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 5px;
+			width: 100%;
+			height: 8px;
+
+			background: #ffffff;
+
+			border: 1px solid #b5b5b5;
+			box-sizing: border-box;
+
+			border-radius: 999px;
+
+			z-index: 0;
+		}
+
+		input[type="range"]{
+			position: absolute;
+			left: 0;
+			top: 0;
+
+			width: 300px;
+			height: 18px;
+
+			margin: 0;
+			padding: 0;
+
+			appearance: none;
+			-webkit-appearance: none;
+
+			background: transparent;
+
+			cursor: pointer;
+			outline: none;
+
+			z-index: 2;
+		}
+
+		input[type="range"]::-webkit-slider-runnable-track{
+			height: 8px;
+			background: transparent;
+			border: none;
+			border-radius: 999px;
+		}
+
+		input[type="range"]::-webkit-slider-thumb{
+			appearance: none;
+			-webkit-appearance: none;
+
+			width: 18px;
+			height: 18px;
+
+			margin-top: -5px;
+
+			background: var(--thumb-color);
+
+			border: none;
+			border-radius: 50%;
+
+			box-shadow: none;
+		}
+
+		input[type="range"]:focus{
+			outline: none;
+		}
+
+		input[type="range"]:focus::-webkit-slider-runnable-track{
+			background: transparent;
+		}
+
+		input[type="range"]::-moz-range-track{
+			height: 8px;
+			background: transparent;
+			border: none;
+			border-radius: 999px;
+		}
+
+		input[type="range"]::-moz-range-progress{
+			height: 8px;
+			background: var(--filled-color);
+			border: none;
+			border-radius: 999px;
+		}
+
+		input[type="range"]::-moz-range-thumb{
+			width: 18px;
+			height: 18px;
+
+			background: var(--thumb-color);
+
+			border: none;
+			border-radius: 50%;
+
+			box-shadow: none;
+		}
+
+
+		#yolkSliderTrack{
+			position: absolute;
+			left: 0;
+			top: 5px;
+
+			height: 8px;
+
+			background: var(--filled-color);
+
+			border-radius: 999px;
+
+			z-index: 1;
+
+			pointer-events: none;
+		}
+
+		#whiteSliderTrack{
+			position: absolute;
+			left: 0;
+			top: 5px;
+
+			height: 8px;
+
+			background: var(--filled-color);
+
+			border-radius: 999px;
+
+			z-index: 1;
+
+			pointer-events: none;
+		}
+
+
+		#plateIt{
+			margin-top: 70px;
+			margin-bottom: 50px;
+
+			padding: 13px 35px;
+
+			font-size: 16px;
+			font-family: 'Gmarket Sans', sans-serif;
+			font-weight: 400;
+
+			background: black;
+			color: white;
+
+			border: none;
+			border-radius: 30px;
+
+			cursor: pointer;
+		}
+
+
+		#plateScreen{
+			display: none;
+
+			flex-direction: column;
+			align-items: center;
+
+			margin-top: 45px;
+		}
+
+
+		#tableSetting{
+			position: relative;
+
+			width: 850px;
+			height: 600px;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			isolation: isolate;
+		}
+
+
+		#plate{
+			position: absolute;
+
+			width: 600px;
+
+			left: 125px;
+			top: 0;
+
+			z-index: 1;
+		}
+
+
+		#plateEggWhite{
+			position: absolute;
+
+			width: 260px;
+			height: 220px;
+
+			left: 295px;
+			top: 190px;
+
+			background: white;
+
+			border-radius:
+				55% 45% 60% 40% /
+				45% 55% 40% 60%;
+
+			box-shadow:
+				0 7px 12px rgba(80,50,20,0.18),
+				0 14px 20px rgba(80,50,20,0.10),
+				inset 0 -7px 12px rgba(200,200,200,0.35);
+
+			z-index: 10;
+		}
+
+
+		#plateYolk{
+			position: absolute;
+
+			width: 110px;
+			height: 110px;
+
+			left: 370px;
+			top: 245px;
+
+			background: hsl(50, 100%, 50%);
+
+			border-radius: 50%;
+
+			box-shadow:
+				8px 10px 12px rgba(100,55,0,0.25),
+				inset -8px -10px 15px rgba(180,80,0,0.25),
+				inset 5px 5px 12px rgba(255,255,150,0.35);
+
+			z-index: 11;
+		}
+
+		#plateYolk::before{
+			content: "";
+			position: absolute;
+
+			width: 28px;
+			height: 18px;
+
+			left: 22px;
+			top: 18px;
+
+			background: rgba(255,255,255,0.45);
+
+			border-radius: 50%;
+
+			transform: rotate(-25deg);
+		}
+
+		#plateYolk::after{
+			content: "";
+			position: absolute;
+
+			width: 12px;
+			height: 8px;
+
+			left: 53px;
+			top: 32px;
+
+			background: rgba(255,255,255,0.25);
+
+			border-radius: 50%;
+		}
+
+
+		#fork{
+			position: absolute;
+
+			width: 84px;
+
+			left: 65px;
+			top: 164px;
+
+			z-index: 20;
+		}
+
+		#knife{
+			position: absolute;
+
+			width: 70px;
+
+			right: 68px;
+			top: 128px;
+
+			z-index: 20;
+		}
+
+
+		#retry{
+			margin-top: 70px;
+			margin-bottom: 40px;
+
+			padding: 13px 35px;
+
+			font-size: 16px;
+			font-family: 'Gmarket Sans', sans-serif;
+			font-weight: 400;
+
+			background: black;
+			color: white;
+
+			border: none;
+			border-radius: 30px;
+
+			cursor: pointer;
+		}
+
+	</style>
+</head>
+
+
+<body>
+
+	<h1>나만의 계란후라이 만들기</h1>
+
+	<p>내 취향에 딱! 맞는 계란후라이를 만들어 보세요~</p>
+
+
+	<div id="mainArea">
+
+		<div id="panArea">
+
+			<img id="pan" src="pan.png">
+
+			<div id="eggWhite"></div>
+
+			<div id="yolk"></div>
+
+		</div>
+
+
+		<div id="rightArea">
+
+			<div class="controlBox">
+
+				<label>노른자 색</label>
+
+				<div class="sliderRow">
+
+					<span class="sliderLabel">노랑</span>
+
+					<div class="rangeWrap">
+
+						<div id="yolkSliderTrack"></div>
+
+						<input
+							type="range"
+							id="yolkSlider"
+							min="30"
+							max="55"
+							value="35"
+						>
+
+					</div>
+
+					<span class="sliderLabel">주황</span>
+
+				</div>
+
+			</div>
+
+
+			<div class="controlBox">
+
+				<label>익힘 정도</label>
+
+				<div class="sliderRow">
+
+					<span class="sliderLabel">촉촉하게</span>
+
+					<div class="rangeWrap">
+
+						<div id="whiteSliderTrack"></div>
+
+						<input
+							type="range"
+							id="whiteSlider"
+							min="30"
+							max="100"
+							value="70"
+						>
+
+					</div>
+
+					<span class="sliderLabel">바싹 익힘</span>
+
+				</div>
+
+			</div>
+
+
+			<button id="plateIt">
+				접시에 담기 →
+			</button>
+
+		</div>
+
+	</div>
+
+
+	<div id="plateScreen">
+
+		<div id="tableSetting">
+
+			<img id="plate" src="plate.png">
+
+			<div id="plateEggWhite"></div>
+
+			<div id="plateYolk"></div>
+
+			<img id="fork" src="fork.png">
+
+			<img id="knife" src="knife.png">
+
+		</div>
+
+
+		<button id="retry">
+			다시 만들기
+		</button>
+
+	</div>
+
+
+	<script>
+
+		var yolkSlider =
+			document.getElementById("yolkSlider");
+
+		var whiteSlider =
+			document.getElementById("whiteSlider");
+
+
+		var yolk =
+			document.getElementById("yolk");
+
+		var eggWhite =
+			document.getElementById("eggWhite");
+
+
+		var plateYolk =
+			document.getElementById("plateYolk");
+
+		var plateEggWhite =
+			document.getElementById("plateEggWhite");
+
+
+		var yolkSliderTrack =
+			document.getElementById("yolkSliderTrack");
+
+		var whiteSliderTrack =
+			document.getElementById("whiteSliderTrack");
+
+
+		var plateIt =
+			document.getElementById("plateIt");
+
+		var retry =
+			document.getElementById("retry");
+
+
+		var mainArea =
+			document.getElementById("mainArea");
+
+		var plateScreen =
+			document.getElementById("plateScreen");
+
+
+		function getYolkColor(){
+
+			var hue =
+				55 - (yolkSlider.value - 30);
+
+			return "hsl(" + hue + ", 100%, 50%)";
+		}
+
+
+		function updateYolkSlider(){
+
+			var value =
+				Number(yolkSlider.value);
+
+			var min =
+				Number(yolkSlider.min);
+
+			var max =
+				Number(yolkSlider.max);
+
+
+			var currentColor =
+				getYolkColor();
+
+
+			yolk.style.background =
+				currentColor;
+
+
+			var progress =
+				((value - min) / (max - min)) * 100;
+
+
+			yolkSlider.style.setProperty(
+				"--filled-color",
+				currentColor
+			);
+
+			yolkSlider.style.setProperty(
+				"--thumb-color",
+				currentColor
+			);
+
+
+			yolkSliderTrack.style.width =
+				progress + "%";
+
+			yolkSliderTrack.style.background =
+				currentColor;
+		}
+
+
+		function updateWhiteSlider(){
+
+			var value =
+				Number(whiteSlider.value);
+
+			var min =
+				Number(whiteSlider.min);
+
+			var max =
+				Number(whiteSlider.max);
+
+
+			var progress =
+				(value - min) / (max - min);
+
+
+			var minWidth = 220;
+			var maxWidth = 260;
+
+			var minHeight = 185;
+			var maxHeight = 220;
+
+
+			var currentWidth =
+				minWidth +
+				((maxWidth - minWidth) * progress);
+
+
+			var currentHeight =
+				minHeight +
+				((maxHeight - minHeight) * progress);
+
+
+			var centerX = 306;
+			var centerY = 310;
+
+
+			var currentLeft =
+				centerX - (currentWidth / 2);
+
+			var currentTop =
+				centerY - (currentHeight / 2);
+
+
+			eggWhite.style.width =
+				currentWidth + "px";
+
+			eggWhite.style.height =
+				currentHeight + "px";
+
+			eggWhite.style.left =
+				currentLeft + "px";
+
+			eggWhite.style.top =
+				currentTop + "px";
+
+
+			var startOpacity = 0.4;
+			var endOpacity = 1;
+
+
+			var currentOpacity =
+				startOpacity +
+				((endOpacity - startOpacity) * progress);
+
+
+			eggWhite.style.opacity =
+				currentOpacity;
+
+
+			var sliderGray =
+				Math.round(
+					170 -
+					(170 * progress)
+				);
+
+
+			var currentColor =
+				"rgb(" +
+				sliderGray + "," +
+				sliderGray + "," +
+				sliderGray +
+				")";
+
+
+			whiteSlider.style.setProperty(
+				"--filled-color",
+				currentColor
+			);
+
+			whiteSlider.style.setProperty(
+				"--thumb-color",
+				currentColor
+			);
+
+
+			whiteSliderTrack.style.width =
+				(progress * 100) + "%";
+
+			whiteSliderTrack.style.background =
+				currentColor;
+		}
+
+
+		yolkSlider.oninput = function(){
+
+			updateYolkSlider();
+
+		};
+
+
+		whiteSlider.oninput = function(){
+
+			updateWhiteSlider();
+
+		};
+
+
+		plateIt.onclick = function(){
+
+			mainArea.style.display =
+				"none";
+
+
+			plateScreen.style.display =
+				"flex";
+
+
+			var value =
+				Number(whiteSlider.value);
+
+			var min =
+				Number(whiteSlider.min);
+
+			var max =
+				Number(whiteSlider.max);
+
+
+			var progress =
+				(value - min) / (max - min);
+
+
+			var minWidth = 220;
+			var maxWidth = 260;
+
+			var minHeight = 185;
+			var maxHeight = 220;
+
+
+			var currentWidth =
+				minWidth +
+				((maxWidth - minWidth) * progress);
+
+
+			var currentHeight =
+				minHeight +
+				((maxHeight - minHeight) * progress);
+
+
+			var plateCenterX = 425;
+			var plateCenterY = 300;
+
+
+			var plateLeft =
+				plateCenterX -
+				(currentWidth / 2);
+
+			var plateTop =
+				plateCenterY -
+				(currentHeight / 2);
+
+
+			plateEggWhite.style.width =
+				currentWidth + "px";
+
+			plateEggWhite.style.height =
+				currentHeight + "px";
+
+
+			plateEggWhite.style.left =
+				plateLeft + "px";
+
+			plateEggWhite.style.top =
+				plateTop + "px";
+
+
+			var currentOpacity =
+				0.4 +
+				((1 - 0.4) * progress);
+
+
+			plateEggWhite.style.opacity =
+				currentOpacity;
+
+
+			plateYolk.style.background =
+				yolk.style.background;
+
+		};
+
+
+		retry.onclick = function(){
+
+			plateScreen.style.display =
+				"none";
+
+
+			mainArea.style.display =
+				"flex";
+
+
+			yolkSlider.value = 30;
+
+			whiteSlider.value = 30;
+
+
+			var initialYolkColor =
+				"hsl(55, 100%, 50%)";
+
+
+			yolk.style.background =
+				initialYolkColor;
+
+
+			var initialWidth = 220;
+			var initialHeight = 185;
+
+			var initialOpacity = 0.4;
+
+
+			eggWhite.style.width =
+				initialWidth + "px";
+
+			eggWhite.style.height =
+				initialHeight + "px";
+
+
+			eggWhite.style.left =
+				(306 - initialWidth / 2) + "px";
+
+			eggWhite.style.top =
+				(310 - initialHeight / 2) + "px";
+
+
+			eggWhite.style.opacity =
+				initialOpacity;
+
+
+			plateEggWhite.style.width =
+				initialWidth + "px";
+
+			plateEggWhite.style.height =
+				initialHeight + "px";
+
+
+			plateEggWhite.style.left =
+				(425 - initialWidth / 2) + "px";
+
+			plateEggWhite.style.top =
+				(300 - initialHeight / 2) + "px";
+
+
+			plateEggWhite.style.opacity =
+				initialOpacity;
+
+
+			plateYolk.style.background =
+				initialYolkColor;
+
+
+			updateYolkSlider();
+
+			updateWhiteSlider();
+
+		};
+
+
+		updateYolkSlider();
+
+		updateWhiteSlider();
+
+	</script>
+
+</body>
+</html>
